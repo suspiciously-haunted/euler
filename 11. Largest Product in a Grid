@@ -1,0 +1,51 @@
+def input_grid(rows, cols):
+    print(f"Enter {rows * cols} integers separated by spaces for the {rows}x{cols} grid:")
+    
+    while True:
+        try:
+            input_string = input()
+            values = list(map(int, input_string.split()))
+            
+            if len(values) != rows * cols:
+                print(f"Invalid input. You need to enter exactly {rows * cols} integers.")
+                continue
+
+            grid = [values[i:i + cols] for i in range(0, len(values), cols)]
+            return grid
+        except ValueError:
+            print("Invalid input. Please ensure all values are integers.")
+
+def greatest_product_in_grid(grid, rows, cols):
+    prod = 0  
+
+    for i in range(rows):
+        for j in range(cols - 3):  
+            horizontal_product = grid[i][j] * grid[i][j + 1] * grid[i][j + 2] * grid[i][j + 3]
+            if horizontal_product > prod:
+              prod = horizontal_product
+            
+            if i <= rows - 4:  
+                vertical_product = grid[i][j] * grid[i + 1][j] * grid[i + 2][j] * grid[i + 3][j]
+                if vertical_product > prod:
+                  prod = vertical_product
+            
+            if i <= rows - 4 and j <= cols - 4:
+                diagonal_lr_product = grid[i][j] * grid[i + 1][j + 1] * grid[i + 2][j + 2] * grid[i + 3][j + 3]
+                if diagonal_lr_product > prod:
+                  prod = diagonal_lr_product
+            
+            if i <= rows - 4 and j >= 3:
+                diagonal_rl_product = grid[i][j] * grid[i + 1][j - 1] * grid[i + 2][j - 2] * grid[i + 3][j - 3]
+                if diagonal_rl_product > prod:
+                  prod = diagonal_rl_product
+
+    return prod
+
+rows = 20
+cols = 20
+
+grid = input_grid(rows, cols)
+
+max_product = greatest_product_in_grid(grid, rows, cols)
+
+print(f"\nThe greatest product of four adjacent numbers in the grid is: {max_product}")
