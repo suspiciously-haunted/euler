@@ -1,0 +1,10 @@
+val = 0
+import math
+for num in range(3,2540161):
+  total = 0
+  for digit in str(num):
+    total += math.factorial(int(digit))
+  if num == total:
+    print(num)
+    val +=num
+print(val) 
