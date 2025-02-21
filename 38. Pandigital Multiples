@@ -1,0 +1,15 @@
+max_pan = 0
+
+for value in range(1, 10000):
+    concatenated_product = ""
+    
+    for n in range(1, 10):
+        concatenated_product += str(value * n)
+        
+        if len(concatenated_product) > 9:
+            break
+    
+    if len(concatenated_product) == 9 and sorted(concatenated_product) == ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+        max_pan = max(max_pan, int(concatenated_product))
+
+print(max_pan)
