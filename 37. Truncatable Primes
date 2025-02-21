@@ -1,0 +1,34 @@
+import math
+
+def checkprime(n):
+    if n <= 1: 
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def is_truncatable_prime(n):
+    temp_str = str(n)
+    for i in range(len(temp_str)):
+        prefix = int(temp_str[i:])
+        if not checkprime(prefix):
+            return False
+    for i in range(len(temp_str)):
+        suffix = int(temp_str[:len(temp_str) - i])
+        if not checkprime(suffix):
+            return False
+    return True
+
+count = 0
+value = 10
+truncatable_primes = []
+
+while count < 11:
+    if checkprime(value) and is_truncatable_prime(value):
+        truncatable_primes.append(value)
+        count += 1
+    value += 1
+
+print("Truncatable primes:", truncatable_primes)
+print("Sum of truncatable primes:", sum(truncatable_primes))
