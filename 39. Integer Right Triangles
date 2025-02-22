@@ -1,0 +1,13 @@
+max_soln = 0
+maxp = 0
+for p in range(1, 1001):
+    soln = 0
+    for i in range(1, p//3):
+        for j in range(i, p//2):
+            hypotenuse = p - i - j
+            if i**2 + j**2 == hypotenuse**2:
+                soln += 1
+    if soln > max_soln:
+        max_soln = soln
+        maxp = p
+print(maxp)
