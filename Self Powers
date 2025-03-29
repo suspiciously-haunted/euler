@@ -1,0 +1,8 @@
+total = 0
+
+for i in range(1,1001):
+  total += i**i
+  val = str(total)
+  val=val[-10:]
+  total = int(val)
+print(total)
