@@ -1,0 +1,27 @@
+def checkprime(n):
+    if n <= 1:
+        return False
+    if n == 2:
+        return True
+    if n%2 == 0: return False
+    for i in range(3, int(n**0.5) + 1,2):
+        if n % i == 0:
+            return False
+    return True
+
+def conj(n):
+    i = 1
+    while 2 * i * i < n:
+        val = n - 2 * i * i
+        if checkprime(val):
+            return True
+        i += 1
+    return False
+
+num = 9
+while conj(n):
+    if not checkprime(num):
+        if not conj(num):
+            print(num)
+            break
+    num +=2
