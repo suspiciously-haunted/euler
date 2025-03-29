@@ -1,0 +1,19 @@
+def triangle(n):
+  if n < 0: return False
+  half = int((n*2)**0.5)
+  if n == half*(half+1)//2:
+    return True
+  else: return False
+
+counter = 0
+with open('words.txt', 'r') as file:
+  for line in file:
+    for word in line.split(","):
+      word = word.strip().strip('"')
+      total = 0
+      s_int = []
+      for s in word:
+        total = total+ord(s)-ord('A')+1
+      if triangle(total):
+        counter = counter + 1
+print(counter)
