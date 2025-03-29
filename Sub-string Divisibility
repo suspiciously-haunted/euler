@@ -1,0 +1,17 @@
+from itertools import permutations
+def check(p):
+  divisors = [2,3,5,7,11,13,17]
+  for i in range(7):
+    num = int(p[i+1]+p[i+2]+p[i+3])
+    if num%divisors[i]!=0:
+      return False
+  return True
+  
+total = 0
+perms = [''.join(p) for p in permutations('0123456789')]
+for p in perms:
+  if p[0] == 0: break
+  if check(p):
+    total += int(p)
+  
+print(total)
