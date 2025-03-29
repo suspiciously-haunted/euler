@@ -1,0 +1,17 @@
+import math
+
+def is_pent(x):
+    n = (24 * x + 1) ** 0.5
+    return n.is_integer() and (n + 1) % 6 == 0 
+
+def is_tri(x):
+    n = (8 * x + 1) ** 0.5  
+    return n.is_integer()  
+
+i = 143
+while True:
+    n = i * (2 * i - 1)
+    if is_pent(n) and is_tri(n) and n > 40755:  
+        print(n)
+        break 
+    i += 1  
