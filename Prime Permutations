@@ -1,0 +1,32 @@
+import itertools
+import sympy
+
+def is_prime(n):
+    return sympy.isprime(n)
+
+def find_sequence():
+    primes = [p for p in range(1000, 10000) if is_prime(p)]
+    prime_dict = {}
+
+    for prime in primes:
+        sorted_digits = tuple(sorted(str(prime)))
+        if sorted_digits not in prime_dict:
+            prime_dict[sorted_digits] = []
+        prime_dict[sorted_digits].append(prime)
+
+    for primes_list in prime_dict.values():
+        primes_list.sort()
+        for i in range(len(primes_list)):
+            for j in range(i + 1, len(primes_list)):
+              for k in range(j + 1, len(primes_list)):
+                p1 = primes_list[i]
+                p2 = primes_list[j]
+                p3 = primes_list[k]
+                if p2 - p1 == p3 - p2 and p1 != 1487:
+                  return str(p1) + str(p2) + str(p3)
+
+    return None
+
+sequence = find_sequence()
+
+print(sequence)
