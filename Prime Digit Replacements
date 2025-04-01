@@ -1,0 +1,34 @@
+from sympy import isprime
+
+def generate_family(prime_str):
+    prime_family = []
+    
+    for replacement_digit in '0123456789':
+        new_prime = list(prime_str)
+        
+        for i in range(len(prime_str)):
+            if prime_str[i] != replacement_digit:
+                new_prime[i] = replacement_digit
+        
+        new_prime_number = int(''.join(new_prime))
+        
+        if new_prime_number != int(prime_str) and isprime(new_prime_number):
+            prime_family.append(new_prime_number)
+    
+    return prime_family
+
+def find_smallest_prime_with_eight_family():
+    number = 2
+    
+    while True:
+        if isprime(number):
+            prime_str = str(number)
+            family = generate_family(prime_str)
+            
+            if len(family) >= 8:
+                return number
+        
+        number += 1
+        
+smallest_prime = find_smallest_prime_with_eight_family()
+print(smallest_prime)
