@@ -1,0 +1,15 @@
+def checkpa(n):
+  return n == n[::-1]
+def check_ly(x):
+  for i in range(50):
+    x = str(int(x) + int(x[::-1]))
+    if checkpa(x):
+      return False
+    non_ly.add(x)
+  return True
+
+c = 0
+for j in range(1,10000):
+  if check_ly(str(j)):
+    c+=1
+print(c)
