@@ -1,0 +1,42 @@
+import itertools
+
+def read_encrypted_file(filename):
+    with open(filename, 'r') as file:
+        # Read the whole line, remove newlines, and split by commas
+        encrypted_data = file.read().strip().split(',')
+        encrypted_data = [int(value) for value in encrypted_data]
+    return encrypted_data
+
+def decrypt_message(encrypted_data, key):
+    decrypted_message = []
+    key_len = len(key)
+    for i, enc_byte in enumerate(encrypted_data):
+        # XOR with the corresponding key byte (key repeats cyclically)
+        decrypted_byte = enc_byte ^ ord(key[i % key_len])
+        decrypted_message.append(decrypted_byte)
+    return ''.join(chr(byte) for byte in decrypted_message)
+
+def contains_english_words(text):
+    common_words = [' the ']
+    return any(word in text for word in common_words)
+
+def find_decryption_keys_and_print(filename):
+    encrypted_data = read_encrypted_file(filename)
+    
+    all_keys = [''.join(key) for key in itertools.product('abcdefghijklmnopqrstuvwxyz', repeat=3)]
+    
+    for key in all_keys:
+        decrypted_message = decrypt_message(encrypted_data, key)
+        
+        if contains_english_words(decrypted_message):
+            print(f"Key: {key}")
+            print(decrypted_message)
+            print('-' * 40)
+            print(sum_of_ascii_values(decrypted_message))
+
+def sum_of_ascii_values(text):
+    return sum(ord(char) for char in text)
+
+
+filename = '0059_cipher.txt'
+find_decryption_keys_and_print(filename)
