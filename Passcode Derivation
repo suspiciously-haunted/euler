@@ -1,0 +1,55 @@
+from collections import defaultdict, deque
+
+def parse_keylog_file(filename):
+    with open(filename, 'r') as file:
+        return [line.strip() for line in file.readlines()]
+
+def build_graph(attempts):
+    graph = defaultdict(set)
+    in_degree = defaultdict(int)
+    all_digits = set()  
+
+    for attempt in attempts:
+        for digit in attempt:
+            if digit not in in_degree:
+                in_degree[digit] = 0
+            all_digits.add(digit)
+
+    for attempt in attempts:
+        a, b, c = attempt[0], attempt[1], attempt[2]
+        if b not in graph[a]:
+            graph[a].add(b)
+            in_degree[b] += 1
+        if c not in graph[b]:
+            graph[b].add(c)
+            in_degree[c] += 1
+
+    return graph, in_degree, all_digits
+
+def topological_sort(graph, in_degree, all_digits):
+    # Kahn's Algorithm for Topological Sorting
+    queue = deque([node for node in all_digits if in_degree[node] == 0])
+    result = []
+
+    while queue:
+        current = queue.popleft()
+        result.append(current)
+
+        for neighbor in graph[current]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    if len(result) != len(all_digits):
+        raise ValueError("There's a cycle in the graph, invalid input.")
+    
+    return ''.join(result)
+
+def find_shortest_passcode(filename):
+    attempts = parse_keylog_file(filename)
+    graph, in_degree, all_digits = build_graph(attempts)
+    return topological_sort(graph, in_degree, all_digits)
+
+filename = 'keylog.txt'  
+passcode = find_shortest_passcode(filename)
+print(f"The shortest possible passcode is: {passcode}")
